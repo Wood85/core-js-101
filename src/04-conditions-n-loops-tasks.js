@@ -138,17 +138,29 @@ function isTriangle(a, b, c) {
  */
 function doRectanglesOverlap(rect1, rect2) {
   const top1 = rect1.top;
-  const bottom1 = top1 - rect1.height;
+  const bottom1 = top1 + rect1.height;
   const left1 = rect1.left;
   const right1 = left1 + rect1.width;
   const top2 = rect2.top;
-  const bottom2 = top2 - rect2.height;
+  const bottom2 = top2 + rect2.height;
   const left2 = rect2.left;
   const right2 = left2 + rect2.width;
-  if ((bottom1 <= top2 <= top1) && (left1 <= left2 <= right1)) { return true; }
-  if ((bottom1 <= top2 <= top1) && (left1 <= right2 <= right1)) { return true; }
-  if ((bottom1 <= bottom2 <= top1) && (left1 <= left2 <= right1)) { return true; }
-  if ((bottom1 <= bottom2 <= top1) && (left1 <= right2 <= right1)) { return true; }
+  const top2InRect1 = top2 >= top1 && top2 <= bottom1;
+  const top1InRect2 = top1 >= top2 && top1 <= bottom2;
+  const bottom2InRect1 = bottom2 >= top1 && bottom2 <= bottom1;
+  const bottom1InRect2 = bottom1 >= top2 && bottom1 <= bottom2;
+  const left2InRect1 = left2 >= left1 && left2 <= right1;
+  const left1InRect2 = left1 >= left2 && left1 <= right2;
+  const right2InRect1 = right2 >= left1 && right2 <= right1;
+  const right1InRect2 = right1 >= left2 && right1 <= right2;
+  if (top2InRect1 && left2InRect1) { return true; }
+  if (top1InRect2 && left1InRect2) { return true; }
+  if (top2InRect1 && right2InRect1) { return true; }
+  if (top1InRect2 && right1InRect2) { return true; }
+  if (bottom2InRect1 && left2InRect1) { return true; }
+  if (bottom1InRect2 && left1InRect2) { return true; }
+  if (bottom2InRect1 && right2InRect1) { return true; }
+  if (bottom1InRect2 && right1InRect2) { return true; }
   return false;
 }
 
@@ -520,8 +532,9 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(position) {
-  const position1 = [];
+function evaluateTicTacToePosition(/* position */) {
+  throw new Error('Not implemented');
+  /* const position1 = [];
   for (let i = 0; i < position.length; i += 1) {
     let itemPos = [];
     for (let j = 0; j < position[0].length; j += 1) {
@@ -544,10 +557,7 @@ function evaluateTicTacToePosition(position) {
 
   function horizontalSearch(matrix, val) {
     const resultArr = matrix.find((item) => {
-      if (item[0] === item[1] && item[0] === item[2] && item[0] === val) {
-        return item;
-      }
-      return false;
+      item[0] === item[1] && item[0] === item[2] && item[0] === val;
     });
     if (resultArr) { return resultArr[0]; }
     return undefined;
@@ -570,7 +580,7 @@ function evaluateTicTacToePosition(position) {
 
   if (arr.some((i) => i === 'X')) { return 'X'; }
   if (arr.some((i) => i === '0')) { return '0'; }
-  return undefined;
+  return undefined; */
 }
 
 
